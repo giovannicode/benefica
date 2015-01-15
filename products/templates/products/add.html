@@ -1,0 +1,21 @@
+{% extends 'wrapper.html' %}
+{% load bootstrap %}
+
+{% block head_tags %}
+<style>
+form{
+  width: 350px;
+  background-color: hsl(150, 0%, 96%);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form | bootstrap }}
+    <button type="submit" class="btn btn-primary">Donate!</button>
+  </form>
+</div>
+{% endblock %}

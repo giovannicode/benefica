@@ -1,0 +1,25 @@
+{% extends "wrapper.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+  <h1>Products</h1>
+  {% for product in products %}
+  <div>
+    <h4>{{ product.title }}</h4>
+    <p>{{ product.description }}</p>
+    <p>{{ product.user.user_handle }} </p>
+    <img width="150px" height="180px" src="{{MEDIA_URL}}{{product.image}}"/>
+    <script
+    src="http://dwollabutton.s3.amazonaws.com/button.min.js"" class="dwolla_button" type="text/javascript"
+    data-key="NseiY/Kx71KcD8WiBlmq3oxR9QINOYkfhiHCkQhL/W7mq6CQcl"
+    data-redirect="http://benefica.org/thanks"
+    data-label="Purchase Now!"
+    data-name="donation"
+    data-description="undefined"
+    data-amount="10"
+    data-type="simple">
+    </script>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
