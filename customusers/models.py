@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
   first_name = models.CharField(_('First Name'),max_length=30, blank=False)
   last_name = models.CharField(_('Last Name'), max_length=30, blank=False)
   
-  user_handle = models.CharField(max_length=20, unique=True)
+  user_handle = models.CharField(max_length=20, unique=False, null=True)
 
   email = models.EmailField(_('Email Address'), max_length=255, unique=True)
   
@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
   ###############
   
   USERNAME_FIELD = 'email'
-  REQUIRED_FIELDS = ['first_name', 'last_name', 'user_handle']
+  REQUIRED_FIELDS = ['first_name', 'last_name']
 
   is_active = models.BooleanField(default=True)
 
@@ -56,22 +56,28 @@ class User(AbstractBaseUser):
 
 
 class UserCreatorForm(forms.ModelForm):  
+
+  error_message = {
+      'duplicate_email': "A user with that email already exists.",
+      'password_mismatch': "The two password fields didn't match.",
+  }
+
   password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
   password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput)
 
   class Meta:
     model = User
-    fields = ("first_name", "last_name", "user_handle", "email")
+    fields = ("first_name", "last_name", "email")
 
   def clean_username(self):
-    username = self.cleaned_data["user_handle"]
+    email = self.cleaned_data["email"]
     try:
-      User._default_manager.get(username=username)
+      User._default_manager.get(email=email)
     except User.DoesNotExist:
-      return username
+      return email
     raise forms.ValidationError(
-      self.error_messages['duplicate_username'],
-      code='duplicate_username',
+      self.error_messages['duplicate_email'],
+      code='duplicate_email',
     )
 
   def clean_password2(self):
