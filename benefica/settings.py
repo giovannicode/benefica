@@ -95,7 +95,7 @@ STATIC_URL = '/static/'
 #MYEDITS - additional configs
 AUTH_USER_MODEL = 'customusers.User'
 
-STATIC_ROOT = os.path.expanduser('~/www/static')
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
