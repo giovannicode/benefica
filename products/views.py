@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 
-from products.models import ProductForm
+from products.models import Product
 from customusers.models import User
 
 # Create your views here.
@@ -21,3 +22,14 @@ def add(request):
             return redirect('main:index') 
         else:
             return render(request, 'products/add.html', {'form': form})
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ['title', 'description', 'image', 'price']
+
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.user = User.objects.get(pk=self.request.user.id) 
+        product = form.save()
+        return redirect('profiles:index')
+  

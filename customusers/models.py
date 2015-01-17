@@ -45,14 +45,14 @@ class User(AbstractBaseUser):
   objects = UserManager()
   
   def get_full_name(self):
-    return self.user_handle
+    return self.email
   
   
   def get_short_name():
-    return self.user_handle
+    return self.email
 
   def __unicode__(self):
-    return  self.user_handle + "  id:" + str(self.id)
+    return  self.email + "  id:" + str(self.id)
 
 
 class UserCreatorForm(forms.ModelForm):  
