@@ -2,8 +2,8 @@
 {% load staticfiles %}
 {% block content %}
 <div class="container">
-  <h1>Products</h1>
-  {% for product in products %}
+  <h1>Product</h1>
+  {% for product in product_list %}
   <div>
     <h4>{{ product.title }}</h4>
     <p>{{ product.description }}</p>

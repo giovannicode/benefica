@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.contrib.auth.decorators import login_required
 
 from products.models import Product
@@ -32,4 +32,7 @@ class ProductCreateView(CreateView):
         product.user = User.objects.get(pk=self.request.user.id) 
         product = form.save()
         return redirect('profiles:index')
-  
+
+class ProductListView(ListView):  
+    model = Product            
+    template_name = 'main/index.html'
