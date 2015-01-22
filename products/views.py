@@ -23,6 +23,7 @@ def add(request):
         else:
             return render(request, 'products/add.html', {'form': form})
 
+
 class ProductCreateView(CreateView):
     model = Product
     fields = ['title', 'description', 'image', 'price']
@@ -33,6 +34,12 @@ class ProductCreateView(CreateView):
         product = form.save()
         return redirect('profiles:index')
 
+
 class ProductListView(ListView):  
     model = Product            
-    template_name = 'main/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        self.request.session['price'] = 7000
+        context['price'] = self.request.session['price']
+        return context
