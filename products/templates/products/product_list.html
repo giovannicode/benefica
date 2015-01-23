@@ -11,85 +11,26 @@
   <h1>Product</h1>
   {% for product in product_list %}
   <div>
-    <h4>{{ product.title }}</h4>
     <p>{{ product.description }}</p>
     <p>{{ product.user.user_handle }} </p>
+    <p>{{ product.price }}</p>
     <img width="150px" height="180px" src="{{MEDIA_URL}}{{product.image}}"/>
-    <script
-    src="http://dwollabutton.s3.amazonaws.com/button.min.js"" class="dwolla_button" type="text/javascript"
-    data-key="NseiY/Kx71KcD8WiBlmq3oxR9QINOYkfhiHCkQhL/W7mq6CQcl"
-    data-redirect="http://benefica.org/thanks"
-    data-label="Purchase Now!"
-    data-name="donation"
-    data-description="undefined"
-    data-amount="10"
-    data-type="simple">
-    </script>
+    <button class="btn btn-primary cartbtn" data-product_id="{{ product.id }}">Add to Cart</button> 
   </div>
   {% endfor %}
 </div>
 
-<form action="{% url 'payments:index' %}" method="POST" id="payment-form">
-  {% csrf_token %}
-  <span class="payment-errors"></span>
-<h3>Price: {{ price }} </h3>
-  <div class="form-row">
-    <label>
-      <span>Card Number</span>
-      <input type="text" size="20" data-stripe="number"/>
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>CVC</span>
-      <input type="text" size="4" data-stripe="cvc"/>
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>Expiration (MM/YYYY)</span>
-      <input type="text" size="2" data-stripe="exp-month"/>
-    </label>
-    <span> / </span>
-    <input type="text" size="4" data-stripe="exp-year"/>
-  </div>
-
-  <button type="submit">Submit Payment</button>
-</form>
-
 <script>
-jQuery(function($) {
-  $('#payment-form').submit(function(event) {
-    var $form = $(this);
+$('.cartbtn').click(function(event){
+  $.post(
+     "{% url 'carts:index' %}", 
+     { 
+        product_id: $(this).data('product_id'), 
+        csrfmiddlewaretoken: '{{ csrf_token }}' 
+     }
+  );
 
-    // Disable the submit button to prevent repeated clicks
-    $form.find('button').prop('disabled', true);
-
-    Stripe.card.createToken($form, stripeResponseHandler);
-
-    // Prevent the form from submitting with the default action
-    return false;
-  });
 });
-
-
-function stripeResponseHandler(status, response) {
-  var $form = $('#payment-form');
-
-  if (response.error) {
-    // Show the errors on the form
-    $form.find('.payment-errors').text(response.error.message);
-    $form.find('button').prop('disabled', false);
-  } else {
-    // response contains id and card, which contains additional card details
-    var token = response.id;
-    // Insert the token into the form so it gets submitted to the server
-    $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-    // and submit
-    $form.get(0).submit();
-  }
-};
 </script>
+
 {% endblock content %}
