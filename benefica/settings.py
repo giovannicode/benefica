@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'profiles',
     'products',
     'payments',
+    'billing',
     'orders',
     'carts',
     'bootstrapform',
@@ -104,3 +105,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/account/signin/'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'campusgino@gmail.com'
+EMAIL_HOST_PASSWORD = 'monerun1509'

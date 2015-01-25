@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^payments/', include('payments.urls', namespace='payments')),
     url(r'^account/', include('account.urls', namespace='account')),
     url(r'^carts/', include('carts.urls', namespace='carts')),
+    url(r'^billing/', include('billing.urls', namespace='billing')),
     url(r'^$', include('main.urls', namespace='main')),
     url(r'^admin/', include(admin.site.urls)),
 )
