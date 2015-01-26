@@ -27,6 +27,9 @@ $('.cartbtn').click(function(event){
      { 
         product_id: $(this).data('product_id'), 
         csrfmiddlewaretoken: '{{ csrf_token }}' 
+     },
+     function(data){
+        alert(data);
      }
   );
 

@@ -40,6 +40,6 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        self.request.session['price'] = 7000
-        context['price'] = self.request.session['price']
+        self.request.session['cart'] = []
+        self.request.session.modified = True
         return context

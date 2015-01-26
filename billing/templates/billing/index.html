@@ -11,6 +11,11 @@
 <div class="container">
 <form action="{% url 'billing:index' %}" method="POST" id="payment-form">
   {% csrf_token %}
+  <div class="form-row">
+     <label for="email">Email </label>
+     <input name='email' type="email"/>
+  <div class="form-row">
+
   <span class="payment-errors"></span>
 <h3>Price: &#36;{{ price }} </h3>
   <div class="form-row">
