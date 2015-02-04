@@ -31,9 +31,10 @@ class BillingView(TemplateView):
     def post(self, request, *args, **kwargs):
         token = request.POST.get("stripeToken")
         total = self.request.session['total']
+        email = self.request.POST['email']
  
         payment = Payment.objects.create(total=Decimal(total)) 
-        order = Order.objects.create(email='james@gmail.com', payment=payment)
+        order = Order.objects.create(email=email, payment=payment)
         for product_id in self.request.session['cart']:
             product = Product.objects.get(pk=product_id)
             Item.objects.create(order=order, product=product, title=product.title, price=product.price)
@@ -56,7 +57,7 @@ class BillingView(TemplateView):
                 'Order Information', 
                 mssg,
                 'support@benefica.org', 
-                ['campusgino@gmail.com'], 
+                [email], 
                 fail_silently=False
             ) 
             return HttpResponse("You were succesfully charged $" + total)
